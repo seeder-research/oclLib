@@ -1,7 +1,7 @@
 /********
 Utility functions
 *********/
-#include "CL/opencl.h"
+#include "oclLib.h"
 
 // _query_platforms: enumerate opencl platforms found on system
 // inputs:
