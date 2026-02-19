@@ -13,6 +13,7 @@
  */
 
 #include "ocl_error.h"
+#include "ocl_platform.h"
 #include "ocl_ctx.h"
 #include "ocl_buf.h"
 #include "ocl_kernel.h"

@@ -16,6 +16,11 @@ typedef enum {
     OCL_ERR_QUEUE_FINISH,
     OCL_ERR_QUEUE_FLUSH,
     OCL_ERR_INVALID_ARG,
+    /* platform / initialisation errors */
+    OCL_ERR_NO_PLATFORMS,    /* no OpenCL platforms found on the system    */
+    OCL_ERR_ALLOC,           /* host memory allocation failed               */
+    OCL_ERR_DEVICE_QUERY,    /* clGetDeviceIDs returned an unexpected error */
+    OCL_ERR_DEVICE_INDEX,    /* device_index >= number of matching devices  */
 } ocl_error_t;
 
 const char *ocl_strerror(ocl_error_t err);

@@ -17,6 +17,10 @@ const char *ocl_strerror(ocl_error_t err)
     case OCL_ERR_QUEUE_FINISH:   return "clFinish failed";
     case OCL_ERR_QUEUE_FLUSH:    return "clFlush failed";
     case OCL_ERR_INVALID_ARG:    return "invalid argument";
+    case OCL_ERR_NO_PLATFORMS:   return "no OpenCL platforms found";
+    case OCL_ERR_ALLOC:          return "host memory allocation failed";
+    case OCL_ERR_DEVICE_QUERY:   return "device enumeration failed";
+    case OCL_ERR_DEVICE_INDEX:   return "device index out of range";
     default:                     return "unknown error";
     }
 }
