@@ -1,7 +1,10 @@
 /********
 Utility functions
 *********/
-#include "oclLib.h"
+
+#include "CL/opencl.h"
+#include "oclPlatform.h"
+#include "oclUtils.h"
 
 // _query_platforms: enumerate opencl platforms found on system
 // inputs:
@@ -15,7 +18,7 @@ cl_int _query_platforms(cl_platform_id **platforms, cl_uint *platform_count) {
     platform_count = malloc(sizeof(cl_uint));
     if (!platform_count)
         return CL_OUT_OF_HOST_MEMORY;
-    
+
     err = clGetPlatformIDs(0, NULL, platform_count);
     if (err != CL_SUCCESS)
         return err;
@@ -47,12 +50,6 @@ cl_int _query_platforms(cl_platform_id **platforms, cl_uint *platform_count) {
 //    cl_int based status of opencl API calls
 cl_int _query_devices(cl_platform_id *platform, cl_device_id ***devices, cl_uint **device_counts) {
     cl_int err;
-    cl_device_type types[4] = {
-        CL_DEVICE_TYPE_CPU,
-        CL_DEVICE_TYPE_GPU,
-        CL_DEVICE_TYPE_ACCELERATOR,
-        CL_DEVICE_TYPE_CUSTOM
-    };
 
     *devices = (cl_device_id **)malloc(4 * sizeof(cl_device_id *));
     if (!*devices)
@@ -68,7 +65,7 @@ cl_int _query_devices(cl_platform_id *platform, cl_device_id ***devices, cl_uint
         (*device_counts)[i] = 0;
         (*devices)[i] = NULL;
 
-        err = clGetDeviceIDs(*platform, types[i], 0, NULL, &(*device_counts)[i]);
+        err = clGetDeviceIDs(*platform, _oclDevice_types[i], 0, NULL, &(*device_counts)[i]);
         if (err == CL_DEVICE_NOT_FOUND) {
             continue;
         } else if (err != CL_SUCCESS) {
@@ -89,7 +86,7 @@ cl_int _query_devices(cl_platform_id *platform, cl_device_id ***devices, cl_uint
             return CL_OUT_OF_HOST_MEMORY;
         }
 
-        err = clGetDeviceIDs(*platform, types[i], (*device_counts)[i], (*devices)[i], NULL);
+        err = clGetDeviceIDs(*platform, _oclDevice_types[i], (*device_counts)[i], (*devices)[i], NULL);
         if (err != CL_SUCCESS) {
             for (int j = 0; j <= i; j++)
                 free((*devices)[j]);
